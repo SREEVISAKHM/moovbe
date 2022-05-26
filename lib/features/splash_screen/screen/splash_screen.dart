@@ -1,10 +1,46 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:moovbe/utils/colors.dart';
 import 'package:moovbe/utils/extension.dart';
 
-class SplashScreen extends StatelessWidget {
+import '../../auth/screen/login.dart';
+
+class SplashScreen extends StatefulWidget {
   static const String route = '/splash_screen';
   const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  Future<bool> _isLoggedIn() async {
+    Future.delayed(const Duration(milliseconds: 60));
+    return false;
+  }
+
+  void _initState() async {
+    bool isLoggedIn = false;
+
+    try {
+      isLoggedIn = await _isLoggedIn();
+    } catch (e) {
+      log('Error: $e');
+    } finally {
+      if (isLoggedIn) {
+        Navigator.of(context).pushReplacementNamed('/home');
+      } else {
+        Navigator.of(context).pushReplacementNamed(Login.route);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    _initState();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
