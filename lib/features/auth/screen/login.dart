@@ -15,6 +15,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  bool _isLoginClicked = false;
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final _keyForm = GlobalKey<FormState>();
@@ -40,11 +41,35 @@ class _LoginState extends State<Login> {
                         CustomTextFormField(
                           hintText: 'Enter Username',
                           controller: usernameController,
+                          onChanged: (value) {
+                            _keyForm.currentState!.validate();
+                          },
+                          validator: (value) {
+                            if (!_isLoginClicked) {
+                              return null;
+                            }
+                            if (value?.trim().isEmpty ?? true) {
+                              return "User Name is required.";
+                            }
+                            return null;
+                          },
                         ),
                         height(SizeConfig.blockSizeVertical! * 2),
                         CustomTextFormField(
                           hintText: 'Enter Password',
-                          controller: usernameController,
+                          controller: passwordController,
+                          onChanged: (value) {
+                            _keyForm.currentState!.validate();
+                          },
+                          validator: (value) {
+                            if (!_isLoginClicked) {
+                              return null;
+                            }
+                            if (value?.trim().isEmpty ?? true) {
+                              return "Password is required.";
+                            }
+                            return null;
+                          },
                         ),
                       ],
                     )),
@@ -53,7 +78,10 @@ class _LoginState extends State<Login> {
                 flex: 1,
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushReplacementNamed(context, HomeScreen.route);
+                    _isLoginClicked = true;
+                    if (_keyForm.currentState!.validate()) {
+                      Navigator.pushReplacementNamed(context, HomeScreen.route);
+                    }
                   },
                   child: Container(
                     width: SizeConfig.safeBlockHorizontal! * 85,
