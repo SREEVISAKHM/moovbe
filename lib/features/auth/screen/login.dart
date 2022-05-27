@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:moovbe/features/home/screen/home_screen.dart';
+import 'package:moovbe/features/auth/provider/login_provider.dart';
 import 'package:moovbe/utils/colors.dart';
 import 'package:moovbe/utils/size_config.dart';
+import 'package:provider/provider.dart';
 
 import '../../../widgets/custom_text_field.dart';
+import '../../home/screen/home_screen.dart';
 import '../widgets/login_banner.dart';
 
 class Login extends StatefulWidget {
@@ -16,11 +18,14 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool _isLoginClicked = false;
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController usernameController =
+      TextEditingController(text: 'admin_user');
+  TextEditingController passwordController =
+      TextEditingController(text: '123admin789');
   final _keyForm = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    LoginProvider loginProvider = Provider.of<LoginProvider>(context);
     SizeConfig.init(context);
     return Scaffold(
       backgroundColor: colorWhite,
@@ -80,7 +85,16 @@ class _LoginState extends State<Login> {
                   onTap: () {
                     _isLoginClicked = true;
                     if (_keyForm.currentState!.validate()) {
-                      Navigator.pushReplacementNamed(context, HomeScreen.route);
+                      loginProvider
+                          .login(
+                              username: usernameController.text,
+                              password: passwordController.text)
+                          .then((value) {
+                        if (loginProvider.loginModel!.status == 'true') {
+                          Navigator.pushReplacementNamed(
+                              context, HomeScreen.route);
+                        }
+                      });
                     }
                   },
                   child: Container(
@@ -90,13 +104,16 @@ class _LoginState extends State<Login> {
                         borderRadius: BorderRadius.circular(
                             SizeConfig.blockSizeHorizontal! * 1.8)),
                     child: Center(
-                      child: Text(
-                        'Login',
-                        style: TextStyle(
-                            color: colorWhite,
-                            fontFamily: 'axiforma',
-                            fontSize: SizeConfig.blockSizeHorizontal! * 4.5),
-                      ),
+                      child: loginProvider.isLoading == true
+                          ? const CircularProgressIndicator()
+                          : Text(
+                              'Login',
+                              style: TextStyle(
+                                  color: colorWhite,
+                                  fontFamily: 'axiforma',
+                                  fontSize:
+                                      SizeConfig.blockSizeHorizontal! * 4.5),
+                            ),
                     ),
                   ),
                 ),
