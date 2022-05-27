@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moovbe/features/driver_list/provider/driver_list_provider.dart';
+import 'package:moovbe/features/home/provider/home_provider.dart';
 import 'package:moovbe/features/splash_screen/screen/splash_screen.dart';
 import 'package:moovbe/utils/colors.dart';
 import 'package:moovbe/utils/routes.dart';
@@ -18,6 +20,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => HomeProvider()),
+        ChangeNotifierProvider(create: (_) => DriverListProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

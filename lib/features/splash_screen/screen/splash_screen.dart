@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:moovbe/features/home/screen/home_screen.dart';
 import 'package:moovbe/utils/colors.dart';
 import 'package:moovbe/utils/extension.dart';
 
@@ -29,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
       log('Error: $e');
     } finally {
       if (isLoggedIn) {
-        Navigator.of(context).pushReplacementNamed('/home');
+        Navigator.of(context).pushReplacementNamed(HomeScreen.route);
       } else {
         Navigator.of(context).pushReplacementNamed(Login.route);
       }

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:moovbe/features/bus_seats.dart/widgets/one_by_three.dart';
+import 'package:moovbe/features/home/provider/home_provider.dart';
 import 'package:moovbe/utils/colors.dart';
 import 'package:moovbe/utils/extension.dart';
 import 'package:moovbe/utils/size_config.dart';
+import 'package:provider/provider.dart';
+
+import '../widgets/two_by_two.dart';
 
 class BusSeatsScreen extends StatefulWidget {
   static const String route = '/bus_seats';
-  const BusSeatsScreen({Key? key}) : super(key: key);
+  final int index;
+  const BusSeatsScreen({Key? key, required this.index}) : super(key: key);
 
   @override
   State<BusSeatsScreen> createState() => _BusSeatsScreenState();
@@ -15,6 +20,8 @@ class BusSeatsScreen extends StatefulWidget {
 class _BusSeatsScreenState extends State<BusSeatsScreen> {
   @override
   Widget build(BuildContext context) {
+    HomeProvider homeProvider = Provider.of<HomeProvider>(context);
+    var data = homeProvider.homeScreenModel!.busList[widget.index];
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -70,10 +77,10 @@ class _BusSeatsScreenState extends State<BusSeatsScreen> {
                 ],
               ),
             ),
-            // height(SizeConfig.blockSizeVertical! * 3.5),
-            // const TwoByTwo()
-            height(SizeConfig.blockSizeVertical! * 3.5),
-            const OneByThree()
+            if (data.type == "2x2") height(SizeConfig.blockSizeVertical! * 3.5),
+            if (data.type == "2x2") const TwoByTwo(),
+            if (data.type == "1X3") height(SizeConfig.blockSizeVertical! * 3.5),
+            if (data.type == "1X3") const OneByThree()
           ],
         ),
       ),

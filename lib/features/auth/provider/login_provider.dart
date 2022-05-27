@@ -21,10 +21,12 @@ class LoginProvider extends BaseProvider {
     notifyListeners();
   }
 
-  Future<bool> _saveAccessTokenToSP(String accesstoken, String refreshtoken) =>
+  Future<bool> _saveDataToSP(
+          String accesstoken, String refreshtoken, String urlId) =>
       SharedPreferences.getInstance().then((sp) {
         sp.setString(spKeyAccessToken, accesstoken);
         sp.setString(spKeyRefreshToken, refreshtoken);
+        sp.setString(spKeyUrl, urlId);
         return true;
       });
   LoginModel? loginModel;
@@ -35,7 +37,7 @@ class LoginProvider extends BaseProvider {
       await WebApiServices()
           .userLogin(username: username, password: password)
           .then((value) => {
-                _saveAccessTokenToSP(value!.access, value.refresh),
+                _saveDataToSP(value!.access, value.refresh, value.urlId),
                 loginModel = value,
                 isLoading = false
               });
