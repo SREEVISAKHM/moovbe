@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moovbe/features/auth/screen/login.dart';
+import 'package:moovbe/features/bus_list/screen/assign_driver.dart';
+import 'package:moovbe/features/bus_list/screen/bus_list.dart';
 import 'package:moovbe/features/bus_seats.dart/screen/bus_seats_screen.dart';
 import 'package:moovbe/features/driver_list/screen/add_driver_screen.dart';
 import 'package:moovbe/features/driver_list/screen/driver_list_screen.dart';
@@ -13,6 +15,8 @@ Map<String, Widget Function(BuildContext context)> appRoutes() => {
       HomeScreen.route: (context) => const HomeScreen(),
       DriverListScreen.route: (context) => const DriverListScreen(),
       AddDriverScreen.route: (context) => const AddDriverScreen(),
+      BusListScreen.route: (context) => const BusListScreen(),
+      AssignDriverScreen.route: (context) => const AssignDriverScreen()
     };
 
 //handle routes with consturctor parameters

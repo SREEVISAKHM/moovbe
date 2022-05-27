@@ -10,7 +10,8 @@ class HomeProvider extends BaseProvider {
   HomeProvider._initialise() : super(name: 'HomeProvider');
 
   factory HomeProvider() => _instance;
-  bool _isLoading = false;
+
+  bool _isLoading = true;
   bool get isLoading => _isLoading;
 
   set isLoading(bool value) {

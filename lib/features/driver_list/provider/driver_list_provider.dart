@@ -11,7 +11,7 @@ class DriverListProvider extends BaseProvider {
   DriverListProvider._initialise() : super(name: 'DriverListProvider');
   factory DriverListProvider() => _instance;
 
-  bool _isLoading = false;
+  bool _isLoading = true;
   bool get isLoading => _isLoading;
 
   set isLoading(bool value) {
@@ -36,9 +36,31 @@ class DriverListProvider extends BaseProvider {
   Future<void> deleteDriver(String driverId) async {
     isLoading = true;
     try {
-      await WebApiServices().deleteDriverList(driverId).then((value) =>
-          {driverListModel = value, isLoading = false, notifyListeners()});
+      await WebApiServices().deleteDriverList(driverId).then((value) => {
+            driverListModel = value,
+            isLoading = false,
+            notifyListeners(),
+          });
     } catch (e) {
+      isLoading = false;
+      log(e.toString());
+    }
+  }
+
+  //for adding driver
+
+  Future<void> addDriver(String name, String mobile, String licenseNo) async {
+    isLoading = true;
+    try {
+      await WebApiServices()
+          .addDriverList(name, mobile, licenseNo)
+          .then((value) => {
+                driverListModel = value,
+                isLoading = false,
+                notifyListeners(),
+              });
+    } catch (e) {
+      isLoading = false;
       log(e.toString());
     }
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moovbe/features/auth/provider/login_provider.dart';
-import 'package:moovbe/features/splash_screen/screen/splash_screen.dart';
+import 'package:moovbe/features/home/screen/home_screen.dart';
 import 'package:moovbe/utils/colors.dart';
 import 'package:moovbe/utils/size_config.dart';
 import 'package:provider/provider.dart';
@@ -92,7 +92,7 @@ class _LoginState extends State<Login> {
                           .then((value) {
                         if (loginProvider.loginModel!.status == 'true') {
                           Navigator.pushReplacementNamed(
-                              context, SplashScreen.route);
+                              context, HomeScreen.route);
                         }
                       });
                     }

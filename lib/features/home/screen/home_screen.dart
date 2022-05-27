@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moovbe/features/bus_seats.dart/screen/bus_seats_screen.dart';
+import 'package:moovbe/features/bus_list/screen/bus_list.dart';
 import 'package:moovbe/features/driver_list/screen/driver_list_screen.dart';
 import 'package:moovbe/features/home/provider/home_provider.dart';
 import 'package:moovbe/utils/colors.dart';
@@ -7,6 +7,7 @@ import 'package:moovbe/utils/extension.dart';
 import 'package:moovbe/utils/size_config.dart';
 import 'package:provider/provider.dart';
 
+import '../../bus_seats.dart/screen/bus_seats_screen.dart';
 import '../widgets/home_screen_card.dart';
 import '../widgets/home_sreen_list_tile.dart';
 
@@ -21,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<HomeProvider>(context, listen: false).fetchHomeScreenData();
     });
     super.initState();
@@ -67,13 +68,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const HomeScreenCard(
-                          imageName: 'bus',
-                          title1: 'Bus',
-                          title2: "Manage your Bus",
-                          color: colorRed,
-                          right: 0,
-                          bottom: 5,
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, BusListScreen.route);
+                          },
+                          child: const HomeScreenCard(
+                            imageName: 'bus',
+                            title1: 'Bus',
+                            title2: "Manage your Bus",
+                            color: colorRed,
+                            right: 0,
+                            bottom: 5,
+                          ),
                         ),
                         InkWell(
                           onTap: () {
@@ -93,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     height(SizeConfig.blockSizeVertical! * 3),
                     Text(
-                      '${homeProvider.homeScreenModel?.busList.length} Buses Found',
+                      '${homeProvider.homeScreenModel!.busList.length} Buses Found',
                       style: const TextStyle(
                         fontFamily: 'Axiforma',
                         fontSize: 13,
@@ -108,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             itemCount:
-                                homeProvider.homeScreenModel?.busList.length,
+                                homeProvider.homeScreenModel!.busList.length,
                             itemBuilder: (_, index) {
                               return InkWell(
                                   onTap: () {

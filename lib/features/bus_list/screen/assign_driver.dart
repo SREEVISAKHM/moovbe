@@ -1,33 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:moovbe/features/driver_list/provider/driver_list_provider.dart';
+import 'package:moovbe/features/bus_list/provider/bus_list_provider.dart';
 import 'package:moovbe/utils/size_config.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/colors.dart';
 import '../../../widgets/custom_text_field.dart';
 
-class AddDriverScreen extends StatefulWidget {
-  static const String route = '/add_driver';
-  const AddDriverScreen({Key? key}) : super(key: key);
+class AssignDriverScreen extends StatefulWidget {
+  static const String route = '/assign_driver';
+  const AssignDriverScreen({Key? key}) : super(key: key);
 
   @override
-  State<AddDriverScreen> createState() => _AddDriverScreenState();
+  State<AssignDriverScreen> createState() => _AssignDriverScreenState();
 }
 
-class _AddDriverScreenState extends State<AddDriverScreen> {
+class _AssignDriverScreenState extends State<AssignDriverScreen> {
   final _keyForm = GlobalKey<FormState>();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController licenseController = TextEditingController();
+  TextEditingController busIdController = TextEditingController();
+  TextEditingController driverIdController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    DriverListProvider driverListProvider =
-        Provider.of<DriverListProvider>(context);
+    BusListProvider busListProvider = Provider.of<BusListProvider>(context);
     SizeConfig.init(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Add Driver',
+          'Assign Driver',
           style: TextStyle(
               fontFamily: 'axiforma',
               fontSize: SizeConfig.blockSizeHorizontal! * 4),
@@ -46,13 +45,13 @@ class _AddDriverScreenState extends State<AddDriverScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CustomTextFormField(
-                    hintText: 'Enter Name',
-                    controller: nameController,
+                    hintText: 'Enter Bus Id',
+                    controller: busIdController,
                   ),
                   height(SizeConfig.blockSizeVertical! * 2),
                   CustomTextFormField(
-                    hintText: 'Enter License Number',
-                    controller: licenseController,
+                    hintText: 'Enter Driver Id',
+                    controller: driverIdController,
                   ),
                 ],
               ),
@@ -66,8 +65,10 @@ class _AddDriverScreenState extends State<AddDriverScreen> {
         child: InkWell(
           onTap: () {
             if (_keyForm.currentState!.validate()) {
-              driverListProvider.addDriver(
-                  nameController.text, '', licenseController.text);
+              busListProvider.assignDriver(
+                busIdController.text,
+                driverIdController.text,
+              );
               Navigator.pop(context);
             }
           },
@@ -80,7 +81,7 @@ class _AddDriverScreenState extends State<AddDriverScreen> {
                   borderRadius: BorderRadius.circular(
                       SizeConfig.blockSizeHorizontal! * 1.8)),
               child: Center(
-                child: driverListProvider.isLoading == true
+                child: busListProvider.isLoading == true
                     ? const CircularProgressIndicator()
                     : Text(
                         'Save',

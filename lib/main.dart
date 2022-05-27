@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moovbe/features/bus_list/provider/bus_list_provider.dart';
 import 'package:moovbe/features/driver_list/provider/driver_list_provider.dart';
 import 'package:moovbe/features/home/provider/home_provider.dart';
 import 'package:moovbe/features/splash_screen/screen/splash_screen.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LoginProvider()),
         ChangeNotifierProvider(create: (_) => HomeProvider()),
         ChangeNotifierProvider(create: (_) => DriverListProvider()),
+        ChangeNotifierProvider(create: (_) => BusListProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
